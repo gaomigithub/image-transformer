@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 图片格式转换工具
-支持将tif/PNG格式转换为常用格式(png, jpg)
+支持将tif/PNG/WebP格式转换为常用格式(png, jpg)
 支持批量调整缩放比例、文件大小、图片质量
 """
 
@@ -346,8 +346,15 @@ class ImageConverter:
             output_format = self.output_format.get()
             adjustment_type = self.adjustment_type.get()
             
-            # 查找支持的图片文件
-            supported_formats = ['*.tif', '*.tiff', '*.png', '*.TIF', '*.TIFF', '*.PNG']
+            # 查找支持的图片文件（扩展更多格式支持）
+            supported_formats = [
+                # 原有格式
+                '*.tif', '*.tiff', '*.png', '*.webp', 
+                '*.TIF', '*.TIFF', '*.PNG', '*.WEBP',
+                # 扩展格式
+                '*.jpg', '*.jpeg', '*.gif', '*.bmp', 
+                '*.JPG', '*.JPEG', '*.GIF', '*.BMP'
+            ]
             all_files = []
             
             for format_pattern in supported_formats:
@@ -355,7 +362,7 @@ class ImageConverter:
                 all_files.extend(files)
             
             if not all_files:
-                self.log_message("在选择的输入文件夹中未找到支持的图片文件 (tif, png)")
+                self.log_message("在选择的输入文件夹中未找到支持的图片文件 (tif, png, webp, jpg, gif, bmp)")
                 messagebox.showinfo("提示", "未找到支持的图片文件")
                 self.finish_conversion()
                 return
